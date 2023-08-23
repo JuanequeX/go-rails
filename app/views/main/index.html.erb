@@ -1,3 +1,7 @@
-<div>
-  <h1>Main View</h1>
+<div class="d-flex flex-column align-items-center justify-content-center">
+  <h1>Welcome to Scheduled Tweets</h1>
+  <% if @user %>
+    Logged in as: <%= @user.email %>
+    <%= button_to "Logout", logout_path, method: :delete, class: "btn rounded btn-warning" %>
+  <% end %>
 </div>
