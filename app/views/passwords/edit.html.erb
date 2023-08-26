@@ -1,16 +1,11 @@
-<h1>Sign Up</h1>
+<h1>Edit Password</h1>
 
-<%= form_with model: @user, url: sign_up_path, data: { turbo: false } do |form| %>
+<%= form_with model: Current.user, url: edit_password_path, data: { turbo: false } do |form| %>
   <% if form.object.errors.any? %>
     <%= render partial: 'errors', locals: { form: form.object } %>
   <% end %>
 
   <div>
-    <div class="d-flex flex-column mb-3">
-      <%= form.label :email, "Email"%>
-      <%= form.text_field :email, class: "form-control", placeholder: "email@test.com" %>
-    </div>
-
     <div class="d-flex flex-column mb-3">
       <%= form.label :password, "Password"%>
       <%= form.password_field :password, class: "form-control", placeholder: "password"%>
@@ -22,7 +17,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.submit "Sign Up", class: "rounded btn btn-primary"%>
+      <%= form.submit "Change Password", class: "rounded btn btn-primary"%>
     </div>
   </div>
 

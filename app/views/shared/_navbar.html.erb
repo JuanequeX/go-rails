@@ -18,7 +18,7 @@
     <ul class="d-flex flex-row">
       <% if Current.user %>
         <li class="list-group-item d-flex align-items-center">
-          <span> <%= Current.user.email %> </span>
+          <%= link_to Current.user.email, edit_password_path, class: "nav-link"%>
         </li>
         <li class="list-group-item mx-2">
           <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-warning"%>
