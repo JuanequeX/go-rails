@@ -1,0 +1,6 @@
+Hi <%= params[:user].email %>, <br />
+Somenone has requested a password reset for your account.
+If this was you, click the link below to reset your password,
+The link was ewpired automatically in 15 minutes:
+
+<%= link_to "Reset Password", password_reset_edit_url(token: @token) %>
