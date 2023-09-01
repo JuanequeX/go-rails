@@ -4,9 +4,10 @@ class PasswordsController < ApplicationController
   def edit; end
 
   def update
-    if Current.user.update(password_params)
+    if Current.user.update(password_params) && password_params[:password].present?
       redirect_to root_path, notice: "Password updated successfully!"
     else
+      flash.now[:alert] = "The password fields cannot be blank."
       render :edit
     end
   end
