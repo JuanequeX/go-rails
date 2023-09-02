@@ -48,3 +48,6 @@ Metrics/MethodLength:
   StyleGuide: '<https://github.com/bbatsov/ruby-style-guide#short-methods>'
   Max: 8
   Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: false

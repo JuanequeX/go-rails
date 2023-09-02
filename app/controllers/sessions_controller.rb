@@ -1,10 +1,12 @@
-class SessionsController < ApplicationController
+# frozen_string_literal: true
 
+# Path: app/controllers/sessions_controller.rb
+class SessionsController < ApplicationController
   def new
     # If the user is already logged in, redirect them to the root page.
-    if session[:user_id]
-      redirect_to root_path
-    end
+    return unless session[:user_id]
+
+    redirect_to root_path
   end
 
   def create
@@ -16,17 +18,16 @@ class SessionsController < ApplicationController
       # logged in when they navigate around our website.
       session[:user_id] = user.id
       # Redirect to the root page with a notice.
-      redirect_to root_path, notice: "Succesfully logged in!"
+      redirect_to root_path, notice: 'Succesfully logged in!'
     else
       # If user's login doesn't work, send them back to the login form.
-      flash[:alert] = "Invalid email or password"
-      render "new"
+      flash[:alert] = 'Invalid email or password'
+      render 'new'
     end
   end
 
-
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, notice: "Succesfully logged out!"
+    redirect_to root_path, notice: 'Succesfully logged out!'
   end
 end

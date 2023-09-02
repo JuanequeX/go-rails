@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Path: app/controllers/passwords_controller.rb
 class PasswordsController < ApplicationController
   before_action :require_user_logged_in!
 
@@ -5,9 +8,9 @@ class PasswordsController < ApplicationController
 
   def update
     if Current.user.update(password_params) && password_params[:password].present?
-      redirect_to root_path, notice: "Password updated successfully!"
+      redirect_to root_path, notice: 'Password updated successfully!'
     else
-      flash.now[:alert] = "The password fields cannot be blank."
+      flash.now[:alert] = 'The password fields cannot be blank.'
       render :edit
     end
   end

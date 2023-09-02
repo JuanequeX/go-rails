@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Path: app/controllers/registrations_controller.rb
 class RegistrationsController < ApplicationController
   def new
     @user = User.new
@@ -7,7 +10,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to root_path, notice: "Succesfully created account!"
+      redirect_to root_path, notice: 'Succesfully created account!'
     else
       render :new
     end
