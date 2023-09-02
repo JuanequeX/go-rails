@@ -39,21 +39,11 @@ function filter_array_with_inverted_regEx() {
   echo "$container"
 }
 
-function add_files_to_staged_tree() {
-  files_paths=("$@")
-  if [[ -n "${files_paths// /}" ]]; then
-    git add $files_paths
-  fi
-}
 
-eslint_autofix_flag=""
-stylelint_autofix_flag=""
-rubocop_autofix_flag=""
-erb_autofix_flag=""
 ends_with_js_or_jsx=".*\.jsx?$"
 ends_with_css=".*\.css$"
 ends_with_rb=".*\.rb?$"
-ends_with_erb="app/**/*.html.erb?$"
+ends_with_erb=".*\.html.erb?$"
 eslint_exit_code=0
 stylelint_exit_code=0
 jest_exit_code=0
@@ -67,30 +57,10 @@ staged_js_jsx_files=$(git diff --cached --diff-filter=d --name-only | grep -E "$
 staged_css_files=$(git diff --cached --diff-filter=d --name-only | grep -E "$ends_with_css")
 staged_rb_files=$(git diff --cached --diff-filter=d --name-only | grep -E "$ends_with_rb")
 staged_erb_files=$(git diff --cached --diff-filter=d --name-only | grep -E "$ends_with_erb")
-js_jsx_filter_regex=$(create_pattern "${not_staged_js_jsx_files[*]}")
-css_filter_regex=$(create_pattern "${not_staged_css_files[*]}")
-rb_filter_regex=$(create_pattern "${not_staged_rb_files[*]}")
-erb_filter_regex=$(create_pattern "${not_staged_erb_files[*]}")
-js_jsx_files_to_add_after_linting=$(filter_array_with_inverted_regEx "${staged_js_jsx_files[*]}" "${js_jsx_filter_regex}")
-css_files_to_add_after_linting=$(filter_array_with_inverted_regEx "${staged_css_files[*]}" "${css_filter_regex}")
-rb_files_to_add_after_linting=$(filter_array_with_inverted_regEx "${staged_rb_files[*]}" "${rb_filter_regex}")
-erb_files_to_add_after_linting=$(filter_array_with_inverted_regEx "${staged_erb_files[*]}" "${erb_filter_regex}")
 
-if [ ${#js_jsx_files_to_add_after_linting} = ${#staged_js_jsx_files} ]; then
-  eslint_autofix_flag="--fix"
-fi
-if [ ${#css_files_to_add_after_linting} = ${#staged_css_files} ]; then
-  stylelint_autofix_flag="--fix"
-fi
-if [ ${#rb_files_to_add_after_linting} = ${#staged_rb_files} ]; then
-  rubocop_autofix_flag="--autocorrect"
-fi
-if [ ${#erb_files_to_add_after_linting} = ${#staged_erb_files} ]; then
-  erb_autofix_flag="--autocorrect"
-fi
 if [[ -n "$staged_js_jsx_files" ]]; then
   echo "Running ESLint..."
-  ./node_modules/.bin/eslint $staged_js_jsx_files --quiet $eslint_autofix_flag
+  ./node_modules/.bin/eslint $staged_js_jsx_files --quiet
   eslint_exit_code=$?
   echo "Running Tests..."
   ./node_modules/.bin/jest
@@ -101,21 +71,20 @@ if [[ -n "$staged_js_jsx_files" ]]; then
 fi
 if [[ -n "$staged_css_files" ]]; then
   echo "Running Stylelint..."
-  ./node_modules/.bin/stylelint $staged_css_files --stdin --quiet $stylelint_autofix_flag
+  ./node_modules/.bin/stylelint $staged_css_files --stdin --quiet
   stylelint_exit_code=$?
 fi
 if [[ -n "$staged_rb_files" ]]; then
   echo "Running RuboCop..."  # Add this line for RuboCop
-  bundle exec rubocop $rubocop_autofix_flag  # Add this line for RuboCop
+  bundle exec rubocop
   rubocop_exit_code=$?  # Add this line for RuboCop
 fi
 if [[ -n "$staged_erb_files" ]]; then
   echo "Running Erb lint..."  # Add this line for Erb-lint
-  bundle exec erblint --lint-all $erb_autofix_flag  # Add this line for Erb-lint
+  bundle exec erblint --lint-all
   erb_exit_code=$?  # Add this line for Erb-lint
 fi
 if [ $eslint_exit_code = 0 ] && [ $stylelint_exit_code = 0 ] && [ $jest_exit_code = 0 ] && [ $rubocop_exit_code = 0 ] && [ $erb_exit_code = 0 ]; then
-  add_files_to_staged_tree "${js_jsx_files_to_add_after_linting[*]} ${css_files_to_add_after_linting[*]}"
   echo -e "${GREEN} ✔ Committed successfully *^____^* ${NC}"
   exit
 else
