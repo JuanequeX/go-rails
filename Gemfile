@@ -8,6 +8,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', require: false
 gem 'importmap-rails'
 gem 'jbuilder'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-twitter', '~> 1.4'
 gem 'pg', '~> 1.1'
 gem 'pry', '~> 0.14.2'
 gem 'puma', '~> 5.0'
