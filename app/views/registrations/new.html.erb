@@ -1,9 +1,7 @@
 <h1>Sign Up</h1>
 
 <%= form_with model: @user, url: sign_up_path, data: { turbo: false } do |form| %>
-  <% if form.object.errors.any? %>
-    <%= render partial: 'errors', locals: { form: form.object } %>
-  <% end %>
+  <%= render 'shared/form_errors', form: %>
 
   <div>
     <div class='d-flex flex-column mb-3'>
