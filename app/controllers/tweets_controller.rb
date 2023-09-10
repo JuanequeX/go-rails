@@ -22,6 +22,13 @@ class TweetsController < ApplicationController
     end
   end
 
+  def destroy
+    @tweet = Current.user.tweets.find(params[:id])
+    @tweet.destroy
+
+    redirect_to tweets_path, notice: 'Tweet was unscheduled successfully'
+  end
+
   private
 
   def tweet_params
