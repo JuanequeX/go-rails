@@ -1,0 +1,18 @@
+<div class='d-flex align-item-center justify-content-between my-4'>
+  <h1>Twitter Accounts </h1>
+  <div>
+    <%= link_to 'Connect a twitter account', '/auth/twitter', method: :post, class: 'btn btn-primary text-center' %>
+  </div>
+</div>
+
+
+<% @twitter_accounts.each do |twitter_account| %>
+  <div class='d-flex flex-column align-item-center mb-4'>
+    <div class='me-2'>
+      <%= image_tag twitter_account.image, class: 'rounded-circle mr-2' %>
+      <%= link_to "@#{twitter_account.username}", "https://twitter.com/#{twitter_account.username}", target: :_blank %>
+    </div>
+
+    <%= button_to 'Disconnect', twitter_account, method: :delete, class: 'btn btn-danger mt-4', data: { confirm: 'Are you sure to delete this account?' } %>
+  </div>
+<% end %>

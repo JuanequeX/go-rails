@@ -7,7 +7,7 @@ class OmniauthCallbacksController < ApplicationController
   def twitter
     Rails.logger.info("🔥🔥🔥 #{auth} 🔥🔥🔥")
     update_or_create_twitter_account
-    redirect_to root_path, notice: 'Successfully connected your account!'
+    redirect_to twitter_accounts_path, notice: 'Successfully connected your account!'
   end
 
   private
