@@ -2,12 +2,7 @@
 
 # Path: app/controllers/sessions_controller.rb
 class SessionsController < ApplicationController
-  def new
-    # If the user is already logged in, redirect them to the root page.
-    return unless session[:user_id]
-
-    redirect_to root_path
-  end
+  def new; end
 
   def create
     # Find the user by their email address
